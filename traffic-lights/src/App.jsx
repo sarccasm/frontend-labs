@@ -1,11 +1,11 @@
+
 import TrafficLights from "./components/TrafficLights";
 
 function App() {
   return (
-    <div style={{ display: "flex", gap: 40, padding: 40 }}>
-      <TrafficLights orientation="horizontal" />
+    <main style={{ padding: 40, display: "flex", justifyContent: "center" }}>
       <TrafficLights orientation="vertical" />
-    </div>
+    </main>
   );
 }
 
