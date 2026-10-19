@@ -1,15 +1,17 @@
+
 import PropTypes from "prop-types";
 
-const StatsBar = ({
+function StatsBar({
   clicks,
   totalClicks,
   currentSignal,
   orientation,
-  onToggleOrientation,
   isAutomatic,
+  onToggleOrientation,
   onStart,
   onStop,
-}) => {
+  readOnly = false,
+}) {
   return (
     <div style={{ textAlign: "left", lineHeight: 1.8 }}>
       <h2>Статистика світлофора</h2>
@@ -20,30 +22,46 @@ const StatsBar = ({
 
       <p>Усього натискань: {totalClicks}</p>
       <p>Активний сигнал: {currentSignal}</p>
+
       <p>
         Орієнтація:{" "}
-        {orientation === "vertical" ? "вертикальна" : "горизонтальна"}
+        {orientation === "vertical"
+          ? "вертикальна"
+          : "горизонтальна"}
       </p>
+
       <p>
         Режим: {isAutomatic ? "автоматичний" : "ручний"}
       </p>
 
-      <button type="button" onClick={onToggleOrientation}>
-        Змінити орієнтацію
-      </button>
+      {!readOnly && (
+        <>
+          <button type="button" onClick={onToggleOrientation}>
+            Змінити орієнтацію
+          </button>
 
-      <div style={{ marginTop: 15, display: "flex", gap: 10 }}>
-        <button type="button" onClick={onStart} disabled={isAutomatic}>
-          Запустити
-        </button>
+          <div style={{ marginTop: 15, display: "flex", gap: 10 }}>
+            <button
+              type="button"
+              onClick={onStart}
+              disabled={isAutomatic}
+            >
+              Запустити
+            </button>
 
-        <button type="button" onClick={onStop} disabled={!isAutomatic}>
-          Зупинити
-        </button>
-      </div>
+            <button
+              type="button"
+              onClick={onStop}
+              disabled={!isAutomatic}
+            >
+              Зупинити
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
-};
+}
 
 StatsBar.propTypes = {
   clicks: PropTypes.shape({
@@ -54,10 +72,11 @@ StatsBar.propTypes = {
   totalClicks: PropTypes.number.isRequired,
   currentSignal: PropTypes.oneOf(["red", "yellow", "green"]).isRequired,
   orientation: PropTypes.oneOf(["vertical", "horizontal"]).isRequired,
-  onToggleOrientation: PropTypes.func.isRequired,
   isAutomatic: PropTypes.bool.isRequired,
-  onStart: PropTypes.func.isRequired,
-  onStop: PropTypes.func.isRequired,
+  onToggleOrientation: PropTypes.func,
+  onStart: PropTypes.func,
+  onStop: PropTypes.func,
+  readOnly: PropTypes.bool,
 };
 
 export default StatsBar;
